@@ -1,3 +1,6 @@
+const API_URL =
+  import.meta.env.VITE_BACKEND_URL || "http://localhost:5000"
+
 export const runJavaCode = async ({
   code,
   input,
@@ -27,7 +30,7 @@ export const runJavaCode = async ({
   setTerminal("Compiling...\n")
 
   try {
-    const res = await fetch("http://localhost:5000/run", {
+    const res = await fetch(`${API_URL}/run`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -70,7 +73,7 @@ export const handleTerminalCommand = ({
   const value = command.trim()
   if (!value) return
 
-  // If program already running → treat as program input (buffered)
+  // If program already running → treat as program input
   if (status === "running") {
     setInput(prev => (prev ? prev + "\n" + value : value))
     return
